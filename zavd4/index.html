@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 4</title>
+    <style>
+        .landing{
+            margin: 0 auto;  
+            max-width: 700px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+        }
+        #rotator-container {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto; 
+            width: 100%;
+            height: auto;
+            justify-content: center;
+            text-align: center;
+        }
+        #counter{
+            margin: 0 auto;
+            border: 1px solid black;
+            max-width: 100%;
+            border-left: none;
+            border-right: none;
+        }
+        #rotator-image {
+            margin: 5px auto;
+            object-fit: cover;
+            object-position: center;
+            width: 500px; 
+            height: 330px; 
+            object-fit: cover;
+        }
+        #rotator-info {
+            color: black;
+            border: 1px solid black;
+            margin: 0 auto;
+            border-left: none;
+            border-right: none;
+        }
+        .nav-button:disabled {
+            cursor: not-allowed;
+        }
+        .nav-button {
+            display: inline-block;
+            background-color: white;
+            border: 0.5px solid black;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="landing">
+        <button class="nav-button" onclick="prevImage()">Назад</button>
+        <div id="rotator-container">
+            <div id="counter"></div>
+            <img id="rotator-image" src="" alt="Rotator Image">
+            <div id="rotator-info"></div>
+        </div>
+        <button class="nav-button" onclick="nextImage()" id="nextButton" disabled>Вперед</button>
+    </div>
+
+    <script>
+                let imagesArray = [
+            {path: 'img/1.jpg', title: 'Лаціо', description: 'Меблі у вітальню'},
+            {path: 'img/2.jpg', title: 'Еко', description: 'Меблі у кухню'},
+            {path: 'img/3.jpg', title: 'Парма', description: 'Меблі у вітальню'}
+        ];
+
+        let currentIndex = 0;
+    let rotatorInfo = document.getElementById('rotator-info');
+    let counter= document.getElementById('counter');
+    let rotatorImage = document.getElementById('rotator-image');
+    let prevButton = document.querySelector('.nav-button:first-child');
+    let nextButton = document.getElementById('nextButton');
+
+    function initPhotoRotator(containerId, images) {
+        let container = document.getElementById(containerId);
+        if (!container) {
+            console.error("Container not found");
+            return;
+        }
+        showImage(currentIndex);
+    }
+
+    function showImage(index) {
+        counter.innerHTML = `Фотографія ${index + 1}/${imagesArray.length}`; 
+        let image = imagesArray[index];
+        rotatorImage.src = image.path;
+        rotatorInfo.innerHTML = `${image.title} - ${image.description}`;
+        prevButton.disabled = index === 0;
+
+        nextButton.disabled = index === imagesArray.length - 1;
+    }
+
+    function prevImage() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showImage(currentIndex);
+        }
+    }
+
+    function nextImage() {
+        if (currentIndex < imagesArray.length - 1) {
+            currentIndex++;
+            showImage(currentIndex);
+        }
+    }
+    initPhotoRotator('rotator-container', imagesArray);
+    </script>
+
+</body>
+</html>

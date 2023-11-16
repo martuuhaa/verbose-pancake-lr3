@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 5</title>
+    <style>
+        body{
+            max-width: 300px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+        .captcha-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .captcha {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            display: inline-block;
+        }
+
+        #userInput {
+            font-size: 18px;
+            padding: 5px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="captcha-container">
+        <div class="captcha" id="captcha"></div>
+        <input type="text" id="userInput" placeholder="Введіть число">
+    </div>
+
+    <button onclick="checkCaptcha()">Перевірити</button>
+    <div id="result"></div>
+
+    <script>
+        let captchaDigits = 2; 
+        let captchaValue = generateCaptcha(captchaDigits);
+
+        function generateCaptcha(digits) {
+            let captcha = '';
+            for (let i = 0; i < digits; i++) {
+                captcha += Math.floor(Math.random() * 10);
+            }
+            displayCaptcha(captcha);
+            return captcha;
+        }
+
+        function displayCaptcha(captcha) {
+            let captchaContainer = document.getElementById('captcha');
+            captchaContainer.textContent = captcha;
+        }
+
+        function checkCaptcha() {
+            let userInput = document.getElementById('userInput').value;
+            let resultContainer = document.getElementById('result');
+
+            if (userInput === captchaValue) {
+                resultContainer.textContent = 'Вірно! Капчу пройдено.';
+            } else {
+                resultContainer.textContent = 'Неправильно! Спробуйте ще раз.';
+                captchaValue = generateCaptcha(captchaDigits);
+            }
+        }
+    </script>
+
+</body>
+</html>

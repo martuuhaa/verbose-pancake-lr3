@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 2</title>
+</head>
+<body>
+    
+    <p>Total Score: <span id="totalScore">0</span></p>
+    
+    <p id="task"></p>
+    <input type="text" id="answer" placeholder="Your answer">
+    
+    <button onclick="nextTask()">Next Task</button>
+    <button onclick="checkAnswer()">Check</button>
+    
+    <p id="result"></p>
+
+    <script>
+        var totalScore = 0;
+        var currentTask;
+
+        function generateTask() {
+            var num1 = Math.floor(Math.random() * 10) + 1;
+            var num2 = Math.floor(Math.random() * 10) + 1;
+            currentTask = num1 * num2;
+            document.getElementById("task").textContent = num1 + " x " + num2 + " = ";
+            document.getElementById("answer").value = "";
+        }
+
+        function nextTask() {
+            generateTask();
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkAnswer() {
+            var userAnswer = document.getElementById("answer").value;
+            if (userAnswer === "") {
+                document.getElementById("result").textContent = "Please enter an answer.";
+                return;
+            }
+
+            userAnswer = parseInt(userAnswer);
+
+            if (userAnswer === currentTask) {
+                totalScore++;
+                document.getElementById("result").textContent = "Correct!";
+            } else {
+                document.getElementById("result").textContent = "Incorrect. The correct answer is: " + currentTask;
+            }
+
+            document.getElementById("totalScore").textContent = totalScore;
+        }
+
+        generateTask();
+    </script>
+
+</body>
+</html>

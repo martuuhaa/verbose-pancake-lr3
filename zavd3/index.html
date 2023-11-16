@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання 3</title>
+</head>
+<body>
+    
+    <p>Total Score: <span id="totalScore">0</span></p>
+    
+    <p id="task"></p>
+
+    <form id="answerForm">
+        <input type="radio" name="answer" value="" disabled> <label for="option1" id="label1"></label><br>
+        <input type="radio" name="answer" value="" disabled> <label for="option2" id="label2"></label><br>
+        <input type="radio" name="answer" value="" disabled> <label for="option3" id="label3"></label><br>
+    </form>
+
+    <button onclick="nextTask()">Next Task</button>
+    <button onclick="checkAnswer()">Check</button>
+    
+    <p id="result"></p>
+
+    <script>
+        var totalScore = 0;
+        var currentTask;
+        var options = [];
+
+        function generateTask() {
+            var num1 = Math.floor(Math.random() * 10) + 1;
+            var num2 = Math.floor(Math.random() * 10) + 1;
+            currentTask = num1 * num2;
+            document.getElementById("task").textContent = num1 + " x " + num2 + " = ";
+            
+            options = [];
+            while (options.length < 3) {
+                var option = Math.floor(Math.random() * 100) + 1;
+                if (options.indexOf(option) === -1 && option !== currentTask) {
+                    options.push(option);
+                }
+            }
+            options.push(currentTask);
+
+            options = shuffle(options);
+
+            document.getElementById("label1").textContent = options[0];
+            document.getElementById("label2").textContent = options[1];
+            document.getElementById("label3").textContent = options[2];
+
+            var radioButtons = document.getElementsByName("answer");
+            for (var i = 0; i < radioButtons.length; i++) {
+                radioButtons[i].disabled = false;
+                radioButtons[i].checked = false;
+                radioButtons[i].value = options[i];
+            }
+        }
+
+        function nextTask() {
+            generateTask();
+            document.getElementById("result").textContent = "";
+        }
+
+        function checkAnswer() {
+            var selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+            if (selectedAnswer === null) {
+                document.getElementById("result").textContent = "Please select an answer.";
+                return;
+            }
+
+            var userAnswer = parseInt(selectedAnswer.value);
+
+            if (userAnswer === currentTask) {
+                totalScore++;
+                document.getElementById("result").textContent = "Correct!";
+            } else {
+                document.getElementById("result").textContent = "Incorrect. The correct answer is: " + currentTask;
+            }
+
+            document.getElementById("totalScore").textContent = totalScore;
+
+            var radioButtons = document.getElementsByName("answer");
+            for (var i = 0; i < radioButtons.length; i++) {
+                radioButtons[i].disabled = true;
+            }
+        }
+
+        generateTask();
+
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+    </script>
+
+</body>
+</html>
